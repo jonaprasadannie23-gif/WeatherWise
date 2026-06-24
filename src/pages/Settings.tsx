@@ -15,7 +15,7 @@ import type { TempUnit, ThemeMode, DashPrefs } from "../hooks/useSettings";
 // ── Section wrapper card ──────────────────────────────────────────────────────
 
 interface SectionCardProps {
-  icon: React.ReactElement;
+  icon: React.ReactElement<any>;
   title: string;
   description: string;
   children: React.ReactNode;
@@ -78,10 +78,7 @@ function SegmentedButton<T extends string>({
                 : "text-text-secondary hover:text-text-primary hover:bg-bg-card",
             ].join(" ")}
           >
-            {opt.icon &&
-              React.cloneElement(opt.icon, {
-                className: `w-4 h-4 flex-shrink-0 ${active ? "text-bg-main" : "text-text-secondary"}`,
-              })}
+            {opt.icon}
             {opt.label}
           </button>
         );
