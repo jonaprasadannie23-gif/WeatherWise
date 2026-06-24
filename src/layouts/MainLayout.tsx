@@ -3,11 +3,35 @@ import { Outlet } from "react-router-dom";
 import Sidebar from "../components/Sidebar/Sidebar";
 import Header from "../components/Header/Header";
 import { useSettings } from "../hooks/useSettings";
+import type { WeatherData } from "../types/weather";
 
 const MainLayout: React.FC = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [advisorWeather, setAdvisorWeather] =
+  useState<WeatherData | null>(null);
+
+const handleSearch = (city: string) => {
+  setSearchQuery(city);
+
+  const existing = JSON.parse(
+    localStorage.getItem("weatherwise-history") || "[]"
+  );
+
+  const updated = [
+    city,
+    ...existing.filter(
+      (item: string) =>
+        item.toLowerCase() !== city.toLowerCase()
+    ),
+  ].slice(0, 5);
+
+  localStorage.setItem(
+    "weatherwise-history",
+    JSON.stringify(updated)
+  );
+};
 
   const { tempUnit, dashPrefs, defaultCity } = useSettings();
 
@@ -31,11 +55,22 @@ const MainLayout: React.FC = () => {
       {/* Main Content Area (Header + Scrollable Main Content) */}
       <div className="flex-1 flex flex-col h-full overflow-hidden">
         {/* Fixed Top Header */}
-        <Header setIsMobileOpen={setIsMobileOpen} onSearch={setSearchQuery} />
+        <Header
+  setIsMobileOpen={setIsMobileOpen}
+  onSearch={handleSearch}
+  advisorWeather={advisorWeather}
+/>
 
         {/* Page Content */}
         <main className="flex-1 overflow-y-auto p-6 bg-bg-main">
-          <Outlet context={{ searchQuery, tempUnit, dashPrefs }} />
+          <Outlet
+  context={{
+    searchQuery,
+    tempUnit,
+    dashPrefs,
+    setWeatherDataForAdvisor: setAdvisorWeather,
+  }}
+/>
         </main>
       </div>
     </div>

@@ -20,6 +20,7 @@ interface OutletContextType {
   searchQuery: string;
   tempUnit: TempUnit;
   dashPrefs: DashPrefs;
+  setWeatherDataForAdvisor?: (data: WeatherData) => void;
 }
 
 // ── Temperature conversion helper ────────────────────────────────────────────
@@ -185,7 +186,12 @@ const EmptyState: React.FC = () => (
 // ── Dashboard page ───────────────────────────────────────────────────────────
 
 const Dashboard: React.FC = () => {
-  const { searchQuery, tempUnit, dashPrefs } = useOutletContext<OutletContextType>();
+  const {
+  searchQuery,
+  tempUnit,
+  dashPrefs,
+  setWeatherDataForAdvisor,
+} = useOutletContext<OutletContextType>();
 
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
   const [loading, setLoading] = useState(false);
@@ -206,6 +212,7 @@ const Dashboard: React.FC = () => {
         const data = await fetchCurrentWeather(searchQuery);
         if (!cancelled) {
           setWeatherData(data);
+          setWeatherDataForAdvisor?.(data);
           setLastUpdated(
             new Date().toLocaleTimeString(undefined, {
               hour: "2-digit",
