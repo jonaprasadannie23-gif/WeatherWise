@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg-main: #18181B;
+  --color-bg-sidebar: #202327;
+  --color-bg-header: #202327;
+  --color-bg-card: #272B30;
+  --color-brand-border: #3A3F45;
+  --color-border-header: #30363D;
+  --color-brand-accent: #8FA3B8;
+  --color-text-primary: #F4F4F5;
+  --color-text-secondary: #A1A1AA;
+}
+
+/* Ensure full height and dark background by default */
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: var(--color-bg-main);
+  color: var(--color-text-primary);
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+/* ── Light theme overrides ──────────────────────────────────────────────── */
+[data-theme="light"] {
+  --color-bg-main: #F4F4F5;
+  --color-bg-sidebar: #FFFFFF;
+  --color-bg-header: #FFFFFF;
+  --color-bg-card: #FFFFFF;
+  --color-brand-border: #D4D4D8;
+  --color-border-header: #E4E4E7;
+  --color-brand-accent: #4A6FA5;
+  --color-text-primary: #18181B;
+  --color-text-secondary: #71717A;
+}
+
+[data-theme="light"] body,
+[data-theme="light"] #root {
+  background-color: var(--color-bg-main);
+  color: var(--color-text-primary);
+}
